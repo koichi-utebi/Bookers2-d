@@ -8,14 +8,7 @@ class BooksController < ApplicationController
   end
 
   def index
-    if params[:latest]
-      @books = Book.latest
-    elsif params[:rate_count]
-      @books = Book.rate_count
-    else
-      @books = Book.all
-    end
-
+    @books = Book.all.order(params[:sort])
     @book = Book.new
   end
 
@@ -49,7 +42,7 @@ class BooksController < ApplicationController
   private
 
   def book_params
-    params.require(:book).permit(:title, :body, :rate)
+    params.require(:book).permit(:title, :body, :rate, :category_name)
   end
 
   def ensure_correct_user
